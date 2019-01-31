@@ -51,7 +51,7 @@ void Wave::See(SDL_Rect& a_Rect)
 
         d /= std::numeric_limits<int16_t>::max();
 
-        int32_t final = d * (double)(wHeight * m_Scale);
+        int32_t final = std::round(d * (double)(wHeight * m_Scale));
 
         SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1, wOriginY + final);
     }
