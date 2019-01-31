@@ -29,7 +29,7 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
 
         right = SH<int16_t>(t + 256, l)
             .Sin(15.777)
-            .Vol(0.85)
+            .Vol(0.45)
             .Done();
     });
 }
@@ -54,6 +54,22 @@ void Play::Run()
         in.m_KeyDownResponses[{SDLK_RETURN}] = [](SDL_Keycode a_Key)
         {
             return true;
+        };
+        in.m_KeyDownResponses[{SDLK_1, SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_6, SDLK_7, SDLK_8, SDLK_9, SDLK_0}] = [&](SDL_Keycode a_Key)
+        {
+            uint32_t setting;
+            if (a_Key == SDLK_0)
+            {
+                setting = 10;
+            }
+            else
+            {
+                setting = (a_Key - SDLK_1) + 1;
+            }
+
+            w->m_Scale = ((double)setting / 10.0);
+
+            return false;
         };
         in.m_KeyDownResponses[{SDLK_ESCAPE}] = [&](SDL_Keycode a_Key)
         {

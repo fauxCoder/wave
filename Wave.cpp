@@ -7,7 +7,7 @@ Wave::Wave(RM& a_RM, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a
 , m_End(m_RM.AddEnd(std::bind(&Wave::See, this, std::placeholders::_1), this))
 , m_Margin(a_Margin)
 , m_Data(a_Data)
-, m_Scale(0.6)
+, m_Scale(0.5)
 , m_Flags(a_Flags)
 {
 }
