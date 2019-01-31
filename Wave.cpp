@@ -53,6 +53,9 @@ void Wave::See(SDL_Rect& a_Rect)
 
         int32_t final = std::round(d * (double)(wHeight * m_Scale));
 
-        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1, wOriginY + final);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1 + 1, wOriginY + final);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1 - 1, wOriginY + final);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1, wOriginY + final + 1);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1, wOriginY + final - 1);
     }
 }

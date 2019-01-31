@@ -20,16 +20,18 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
 , m_RM(a_RM)
 , m_SB(a_SB)
 {
-    m_SB.AddSound(Sounds::BigDeal, m_SB.SForF(25.0), [&](uint32_t t, uint32_t l, int16_t& left, int16_t& right)
+    m_SB.AddSound(Sounds::BigDeal, m_SB.SForF(75.0), [&](uint32_t t, uint32_t l, int16_t& left, int16_t& right)
     {
         left = SH<int16_t>(t, l)
-            .Sin(0.777)
-            .Vol(0.35)
+            .Sin(15.777)
+            .Cut(0.3)
             .Done();
 
-        right = SH<int16_t>(t + 256, l)
+        right = SH<int16_t>(t, l)
+            .Shift(28)
             .Sin(15.777)
-            .Vol(0.95)
+            .Scale(0.66)
+            .Cut(0.5)
             .Done();
     });
 }
