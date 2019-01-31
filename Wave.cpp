@@ -2,12 +2,12 @@
 
 #include <functional>
 
-Wave::Wave(RM& a_RM, int32_t a_X, int32_t a_Y, std::vector<int16_t>& a_Data, WaveFlags a_Flags)
+Wave::Wave(RM& a_RM, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a_Flags)
 : m_RM(a_RM)
 , m_End(m_RM.AddEnd(std::bind(&Wave::See, this, std::placeholders::_1), this))
-, m_X(a_X)
-, m_Y(a_Y)
+, m_Margin(a_Margin)
 , m_Data(a_Data)
+, m_Scale(0.6)
 , m_Flags(a_Flags)
 {
 }
@@ -19,28 +19,40 @@ Wave::~Wave()
 
 void Wave::See(SDL_Rect& a_Rect)
 {
+    uint32_t usableWidth = RM::s_ScreenWidth - (m_Margin * 2);
+    uint32_t wOriginX = m_Margin;
+    uint32_t wOriginY = RM::s_ScreenHeight / 2;
+    uint32_t wHeight = wOriginY - m_Margin;
+
     SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xb0, 0xb0, 0xb0, 0xff);
 
-    for (int32_t i = -m_Scale; i < (int32_t)m_Scale; ++i)
+    for (int32_t i = -(wHeight * m_Scale); i < (int32_t)(wHeight * m_Scale); ++i)
     {
-        SDL_RenderDrawPoint(m_RM.m_Renderer, m_X, m_Y + i);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX, wOriginY + i);
     }
 
-    for (uint32_t i = 0; i < m_Length; ++i)
+    for (uint32_t i = 0; i < usableWidth; ++i)
     {
-        SDL_RenderDrawPoint(m_RM.m_Renderer, m_X + i, m_Y);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i, wOriginY);
     }
 
-    SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xff, 0x22, 0x33, 0xff);
-
-    for (uint32_t i = 0; i < m_Data.size() && i < m_Length; i += 2)
+    for (uint32_t i = 0; i < m_Data.size() && i < usableWidth; ++i)
     {
+        if ((i % 2) == 0)
+        {
+            SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xff, 0x99, 0x77, 0xff);
+        }
+        else
+        {
+            SDL_SetRenderDrawColor(m_RM.m_Renderer, 0x77, 0x99, 0xff, 0xff);
+        }
+
         double d = m_Data[i];
 
         d /= std::numeric_limits<int16_t>::max();
 
-        int32_t final = d * (double)m_Scale;
+        int32_t final = d * (double)(wHeight * m_Scale);
 
-        SDL_RenderDrawPoint(m_RM.m_Renderer, m_X + (i / 2) + 1, m_Y + final);
+        SDL_RenderDrawPoint(m_RM.m_Renderer, wOriginX + i + 1, wOriginY + final);
     }
 }

@@ -23,11 +23,14 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
     m_SB.AddSound(Sounds::BigDeal, m_SB.SForF(25.0), [&](uint32_t t, uint32_t l, int16_t& left, int16_t& right)
     {
         left = SH<int16_t>(t, l)
-            .Sin(0.8)
+            .Sin(12.777)
             .Vol(0.85)
             .Done();
 
-        right = left;
+        right = SH<int16_t>(t + 256, l)
+            .Sin(15.777)
+            .Vol(0.85)
+            .Done();
     });
 }
 
@@ -39,7 +42,7 @@ void Play::Run()
 
     if (s != m_SB.m_Sounds.end())
     {
-        w = new Wave(m_RM, 10, 240, s->second);
+        w = new Wave(m_RM, 12, s->second);
     }
 
     bool exit = false;

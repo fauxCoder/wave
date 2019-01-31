@@ -18,6 +18,8 @@ int32_t main(int32_t argc, char* args[])
 
     Quartz q;
 
+    RM::s_ScreenWidth = 800;
+    RM::s_ScreenHeight = 600;
     auto w = RM::Create();
     RM rm(q, *w);
 
