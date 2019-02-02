@@ -1,6 +1,7 @@
 #include <Play.h>
 
 #include <Wave.h>
+#include <Mag.h>
 
 #include <Curie/Input.h>
 #include <Curie/Quartz.h>
@@ -24,14 +25,15 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
     {
         left = SH<int16_t>(t, l)
             .Sin(15.777)
-            .Cut(0.3)
+            // .Cut(0.3)
+            .Scale(0.3)
             .Done();
 
         right = SH<int16_t>(t, l)
             .Shift(28)
             .Sin(15.777)
             .Scale(0.66)
-            .Cut(0.5)
+            // .Cut(0.5)
             .Done();
     });
 }
@@ -39,12 +41,14 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
 void Play::Run()
 {
     Wave* w = nullptr;
+    Mag* m = nullptr;
 
     auto s = m_SB.m_Sounds.find(Sounds::BigDeal);
 
     if (s != m_SB.m_Sounds.end())
     {
-        w = new Wave(m_RM, 12, s->second);
+        w = new Wave(m_RM, 0, 0, RM::s_ScreenWidth, RM::s_ScreenHeight / 2, 12, s->second);
+        m = new Mag(m_RM, 0, RM::s_ScreenHeight / 2, RM::s_ScreenWidth, RM::s_ScreenHeight / 2, 12);
     }
 
     bool exit = false;
@@ -86,4 +90,7 @@ void Play::Run()
 
     if (w)
         delete w;
+
+    if (m)
+        delete m;
 }

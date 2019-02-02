@@ -2,9 +2,13 @@
 
 #include <functional>
 
-Wave::Wave(RM& a_RM, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a_Flags)
+Wave::Wave(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a_Flags)
 : m_RM(a_RM)
 , m_End(m_RM.AddEnd(std::bind(&Wave::See, this, std::placeholders::_1), this))
+, m_X(a_X)
+, m_Y(a_Y)
+, m_Width(a_Width)
+, m_Height(a_Height)
 , m_Margin(a_Margin)
 , m_Data(a_Data)
 , m_Scale(0.5)
@@ -19,10 +23,10 @@ Wave::~Wave()
 
 void Wave::See(SDL_Rect& a_Rect)
 {
-    uint32_t usableWidth = RM::s_ScreenWidth - (m_Margin * 2);
-    uint32_t wOriginX = m_Margin;
-    uint32_t wOriginY = RM::s_ScreenHeight / 2;
-    uint32_t wHeight = wOriginY - m_Margin;
+    uint32_t usableWidth = m_Width - (m_Margin * 2);
+    uint32_t wHeight = (m_Height / 2) - m_Margin;
+    int32_t wOriginX = m_X + m_Margin;
+    int32_t wOriginY = m_Y + m_Margin + wHeight;
 
     SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xb0, 0xb0, 0xb0, 0xff);
 
