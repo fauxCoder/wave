@@ -10,7 +10,7 @@ BETTER_ENUM(WaveFlags, uint32_t,
 
 struct Wave
 {
-    Wave(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a_Flags = WaveFlags::None);
+    Wave(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<double>& a_Data, WaveFlags a_Flags = WaveFlags::None);
 
     ~Wave();
 
@@ -27,7 +27,7 @@ struct Wave
     uint32_t m_Height;
     int32_t m_Margin;
 
-    std::vector<int16_t>& m_Data;
+    std::vector<double>& m_Data;
 
     double m_Scale;
 

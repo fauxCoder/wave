@@ -21,19 +21,11 @@ Play::Play(Quartz& a_Q, RM& a_RM, SB& a_SB)
 , m_RM(a_RM)
 , m_SB(a_SB)
 {
-    m_SB.AddSound(Sounds::BigDeal, m_SB.SForF(75.0), [&](uint32_t t, uint32_t l, int16_t& left, int16_t& right)
+    m_SB.AddSound(Sounds::BigDeal, m_SB.SForF(25.0), [&](uint32_t t, uint32_t l, SB::working_t& out)
     {
-        left = SH<int16_t>(t, l)
-            .Sin(15.777)
-            // .Cut(0.3)
-            .Scale(0.3)
-            .Done();
-
-        right = SH<int16_t>(t, l)
-            .Shift(28)
-            .Sin(15.777)
-            .Scale(0.66)
-            // .Cut(0.5)
+        out = SH(t, l)
+            .Sin(12.3)
+            .Scale(0.5)
             .Done();
     });
 }
@@ -48,7 +40,7 @@ void Play::Run()
     if (s != m_SB.m_Sounds.end())
     {
         w = new Wave(m_RM, 0, 0, RM::s_ScreenWidth, RM::s_ScreenHeight / 2, 12, s->second);
-        m = new Mag(m_RM, 0, RM::s_ScreenHeight / 2, RM::s_ScreenWidth, RM::s_ScreenHeight / 2, 12);
+        m = new Mag(m_RM, 0, RM::s_ScreenHeight / 2, RM::s_ScreenWidth, RM::s_ScreenHeight / 2, 12, s->second);
     }
 
     bool exit = false;

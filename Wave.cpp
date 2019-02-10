@@ -2,7 +2,7 @@
 
 #include <functional>
 
-Wave::Wave(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<int16_t>& a_Data, WaveFlags a_Flags)
+Wave::Wave(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<double>& a_Data, WaveFlags a_Flags)
 : m_RM(a_RM)
 , m_End(m_RM.AddEnd(std::bind(&Wave::See, this, std::placeholders::_1), this))
 , m_X(a_X)
@@ -42,18 +42,16 @@ void Wave::See(SDL_Rect& a_Rect)
 
     for (uint32_t i = 0; i < m_Data.size() && i < usableWidth; ++i)
     {
-        if ((i % 2) == 0)
-        {
-            SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xff, 0x99, 0x77, 0xff);
-        }
-        else
-        {
-            SDL_SetRenderDrawColor(m_RM.m_Renderer, 0x77, 0x99, 0xff, 0xff);
-        }
+        // if ((i % 2) == 0)
+        // {
+        SDL_SetRenderDrawColor(m_RM.m_Renderer, 0xff, 0x99, 0x77, 0xff);
+        // }
+        // else
+        // {
+        //     SDL_SetRenderDrawColor(m_RM.m_Renderer, 0x77, 0x99, 0xff, 0xff);
+        // }
 
         double d = m_Data[i];
-
-        d /= std::numeric_limits<int16_t>::max();
 
         int32_t final = std::round(d * (double)(wHeight * m_Scale));
 

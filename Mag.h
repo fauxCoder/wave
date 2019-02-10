@@ -10,7 +10,7 @@ BETTER_ENUM(MagFlags, uint32_t,
 
 struct Mag
 {
-    Mag(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, MagFlags a_Flags = MagFlags::None);
+    Mag(RM& a_RM, int32_t a_X, int32_t a_Y, uint32_t a_Width, uint32_t a_Height, int32_t a_Margin, std::vector<double>& a_Data, MagFlags a_Flags = MagFlags::None);
 
     ~Mag();
 
@@ -20,6 +20,7 @@ struct Mag
 
     RM& m_RM;
     End* m_End;
+    std::vector<double>& m_Data;
 
     int32_t m_X;
     int32_t m_Y;
@@ -31,5 +32,5 @@ struct Mag
 
     MagFlags m_Flags;
 
-    double* m_Data;
+    double* m_Input;
 };
